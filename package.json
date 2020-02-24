@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MomenSherif/webpack.git"
+    "url": "https://github.com/MomenSherif/webpack-boilerplate"
   },
   "author": "",
   "license": "ISC",
