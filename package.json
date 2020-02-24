@@ -4,8 +4,8 @@
   "description": "- SCSS\r - ES6 Modules\r   ![enter image description here](https://raw.githubusercontent.com/webpack/media/master/logo/icon-square-big.png)",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open ",
-    "build": "webpack --mode production"
+    "start": "webpack-dev-server --mode development --config webpack.dev.js --open",
+    "build": "webpack --config webpack.prod.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
     "image-webpack-loader": "^6.0.0",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.13.1",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.1.3",
     "ts-loader": "^6.2.1",
@@ -36,7 +37,8 @@
     "url-loader": "^3.0.0",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.3",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "bootstrap": "^4.4.1",

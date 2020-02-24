@@ -2,24 +2,34 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const merge = require('webpack-merge');
+const common = require('./webpack.common');
 
-module.exports = {
-  devtool: 'source-map',
-  entry: {
-    vendors: './src/scripts/vendors.js',
-    script: './src/scripts/index.js',
-    ts: './src/typescript/index.ts'
-  },
+const prod = {
+  mode: 'production',
+  devtool: 'none',
   output: {
     filename: '[name].bundle.[contenthash].js',
     path: path.resolve(__dirname, 'dist')
   },
+  optimization: {
+    minimizer: [
+      new OptimizeCssAssetsPlugin(),
+      new TerserPlugin(),
+      new HtmlWebpackPlugin({
+        template: './src/index.html',
+        minify: {
+          removeAttributeQuotes: true,
+          collapseWhitespace: true,
+          removeComments: true
+        }
+      })
+    ]
+  },
   plugins: [
     new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      template: './src/index.html',
-      title: 'Webpack 4 Boilerplate'
-    }),
     new MiniCssExtractPlugin({
       filename: 'style.[contenthash].css'
     })
@@ -57,11 +67,6 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
       },
       {
-        // HTML Loader
-        test: /\.html$/i,
-        loader: 'html-loader'
-      },
-      {
         // Image loader with optimization
         test: /\.(png|jpe?g|gif)$/i,
         use: [
@@ -75,19 +80,7 @@ module.exports = {
           'image-webpack-loader'
         ]
       }
-      // {
-      //   test: /\.(png|jpe?g|gif)$/i,
-      //   use: [
-      //     {
-      //       loader: 'file-loader',
-      //       options: {
-      //         name: '[name].[hash].[ext]',
-      //         outputPath: 'assets',
-      //         esModule: false
-      //       }
-      //     }
-      //   ]
-      // }
     ]
   }
 };
+module.exports = merge(common, prod);
